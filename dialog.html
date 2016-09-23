@@ -1,0 +1,189 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="UTF-8">  
+<style type="text/css">
+table,td{
+  border:1px solid black;
+  
+}
+table{
+  border-collapse:collapse;
+}
+.title{
+  text-align: center;
+  font:18px bold ;
+}
+</style>
+<script type="text/javascript">
+    var dd = JSON.parse(window.name);
+    var graph = dd.graphAttribute;
+    var custom = dd.customAttribute;
+    function save()
+    {
+      graph.color = document.getElementById('color').value;
+      graph.strokeWidth=document.getElementById('borderWidth').value;
+      graph.stroke = document.getElementById('borderColor').value;
+      graph.strokeDasharray = document.getElementById('borderStyle').value;
+      dd.graphAttribute = graph;
+      var table = document.getElementsByTagName('table');
+      var table0 = table[0];
+      custom = {};
+      for(var i=table0.rows.length-1 ;i>=0;i--){        
+          if(table0.rows[i].cells[0].innerHTML == '自定义属性'){
+            break;
+          }
+          var key = table0.rows[i].cells[0].getElementsByTagName("input");
+         // alert(key[0].value);
+          var value = table0.rows[i].cells[1].getElementsByTagName("input");
+          //alert(value[0].value)
+          custom[key[0].value] = value[0].value;
+         
+      }
+     dd.customAttribute = custom;
+     window.opener.document.getElementById('getdata').value = JSON.stringify(dd);
+     window.close();
+    }
+      
+
+    
+    function cancel(){
+      window.opener.document.getElementById('getdata').value = '';
+      window.close();
+    }
+    function initialise(){ 
+      console.log(dd);
+      document.getElementById('color').value = graph.color;
+      if(!graph.strokeWidth||graph.strokeWidth==0||graph.strokeWidth=='') {
+        document.getElementById('borderWidth').value = 0;
+        document.getElementById('border1').style.display = 'none';
+        document.getElementById('border2').style.display = 'none';
+      } else {
+        document.getElementById('borderWidth').value = graph.strokeWidth;
+        document.getElementById('borderColor').value = graph.stroke;
+        if(graph.strokeDasharray){
+          document.getElementById('borderStyle').value = 2;
+        } else {
+          document.getElementById('borderStyle').value = 1;
+        }
+      }
+       var table = document.getElementsByTagName('table');
+      var table0 = table[0];  
+      for(var i in custom) {
+        if(custom[i] != null){
+          var row = table0.insertRow();
+          var cell = row.insertCell();
+          var key = document.createElement('input');
+          key.value = i;
+          cell.appendChild(key);
+          var cell2 = row.insertCell();
+          var value = document.createElement('input');
+          value.value = custom[i];
+          cell2.appendChild(value);
+          var del =  document.createElement('button');
+          del.innerHTML = '删除';
+          del.setAttribute('name', 'del');
+          del.setAttribute('onclick', 'del(this)');
+          cell2.appendChild(del);
+        }
+      }
+      var in1 = document.getElementsByTagName('input');
+      for(var i = 0;i<in1.length;i++){
+        in1[i].setAttribute('disabled', 'true');
+      }
+      var in2 = document.getElementsByName('del');
+      for(var i = 0;i<in2.length;i++){
+        in2[i].style.display = 'none';
+      }
+      document.getElementById('borderStyle').setAttribute('disabled', 'true');
+      document.getElementById('add').style.display = 'none';
+    }
+    function edit() {
+      var in1 = document.getElementsByTagName('input');
+      for(var i = 0;i<in1.length;i++){
+        in1[i].disabled = false;
+      }
+      var in2 = document.getElementsByName('del');
+      for(var i = 0;i<in2.length;i++){
+        in2[i].style.display = 'inline';
+      }
+      document.getElementById('borderStyle').disabled = false;
+      document.getElementById('add').style.display = 'block';
+    }
+    function add() {
+      var table = document.getElementsByTagName('table');
+      var table0 = table[0];  
+      var row = table0.insertRow();
+      var cell = row.insertCell();
+      var key = document.createElement('input');  
+      cell.appendChild(key);
+      var cell2 = row.insertCell();
+      var value = document.createElement('input');  
+      cell2.appendChild(value);
+      var del =  document.createElement('button');
+      del.innerHTML = '删除';
+      del.setAttribute('name', 'del');
+      del.setAttribute('onclick', 'del(this)');
+      cell2.appendChild(del);      
+    }
+  
+    function del(t) {
+       var table = document.getElementsByTagName('table');
+      var table0 = table[0]; 
+      table0.deleteRow(t.parentNode.parentNode.rowIndex);
+
+    }
+    function display(t ) {
+      if(t.value !=0){
+        document.getElementById('border1').style.display = 'table-row';
+        document.getElementById('border2').style.display = 'table-row';
+      } else {
+        document.getElementById('border1').style.display = 'none';
+        document.getElementById('border2').style.display = 'none';
+      }
+    }
+    window.onload = initialise;
+</script>
+</head>
+<body>
+  <div>
+    <table>
+      <tr class='title'>
+        <td colspan='2'>图形属性</td>       
+      </tr>
+      <tr>
+        <td>颜色：</td>
+        <td><input id='color' type='text'/></td>
+      </tr>
+      <tr>
+        <td>边框宽度：</td>
+        <td><input id='borderWidth' type='text' onchange='display(this)'/></td>
+      </tr>
+       <tr id='border1'>
+        <td>边框颜色：</td>
+        <td><input id='borderColor' type='text'/></td>
+      </tr>
+       <tr id='border2'>
+        <td>边框样式：</td>
+        <td>
+          <select id='borderStyle'>
+            <option value='1'>实线</option>
+            <option value='2'>虚线</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td colspan='2' class='title'>自定义属性</td>     
+      </tr>     
+    </table>
+    <button onclick = "add()" id='add'>添加自定义属性</button>
+    <hr>
+    <div style="margin-left:80px">
+      <button onclick = "edit()">编辑</button>
+      <button onclick = "save()">保存</button>
+      <button onclick = "cancel()">取消</button>
+    </div>
+    
+  </div>
+</body>
+</html>

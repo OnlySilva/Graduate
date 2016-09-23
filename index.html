@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<style type="text/css">
+	   *{
+	   	margin: 0px;
+	   	padding:0px;
+	   }
+	  
+	</style>
+</head>
+<body ng-app="myApp" >
+	<!-- <right-tri></right-tri> -->
+	<div ng-controller="mainCtrl">
+		<div graph="graphOptions"></div>		
+	</div>
+<!-- <rect x="180" y="150"  width="80" text="" heigth="60" id='rect0'></rect> -->
+<!-- <circle cx="170" cy="205"  r='50'  id='circle0'></circle> -->
+<!-- <rect x="180" y="250"  width="100" text="" heigth="60" id='rect1'></rect>
+
+<line from='rect0top' to='rect1top'></line>  -->
+<!-- <ellipse cx="60" cy="300" rx="50" ry="30"id="e1" text="start"></ellipse>
+<circle id = "c1" r = "40" cx ="200" cy = "300"  text="register"></circle>
+<diamond id="d1" cx="340" cy="300" rx="60" ry="40"text = "dispatch"></diamond>
+<circle id = "c3" r = "40" cx ="500" cy = "150"  text="outLine"></circle>
+<circle id = "c4" r = "40" cx ="500" cy = "300" text="measure"></circle>
+<circle id = "c5" r = "40" cx ="500" cy = "450" text="room"></circle>
+<diamond id="d2" cx="650" cy="300"rx="60" ry="40" text = "withdraw"></diamond>
+<circle id = "c6" r = "40" cx ="810" cy = "300" text="complete"></circle>
+
+<ellipse cx="950" cy="300" id="e2" rx="50" ry="30"text="end"></ellipse>
+<line from="e1" to="c1" lf="xy"></line>
+<line from="c1" to="d1" lf="xy"></line>
+<line from="d1" to="c3" lf="yx"></line>
+<line from="d1" to="c4" lf="xy"></line>
+<line from="d1" to="c5" lf="yx"></line>
+<line from="c3" to="d2" lf="xy"></line>
+<line from="c4" to="d2" lf="xy"></line>
+<line from="c5" to="d2" lf="xy"></line>
+<line from="d2" to="c6" lf="xy"></line>
+<line from="c6" to="e2" lf="xy"></line> -->
+ 
+    
+  	<script src="d3.js"></script>
+    <script src="angular.js"></script>
+    <script src="graph.js"></script>
+    <script type="text/javascript">
+        var app = angular.module("myApp",["graph"]); 
+        app.controller("mainCtrl",function($scope){
+        	
+        })   ;
+    </script>
+    
+</body>
+</html>
